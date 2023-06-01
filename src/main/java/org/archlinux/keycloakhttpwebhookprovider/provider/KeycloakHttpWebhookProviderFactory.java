@@ -12,11 +12,12 @@ public class KeycloakHttpWebhookProviderFactory implements EventListenerProvider
     private String serverUrl;
     private String username;
     private String password;
+    private String apiKey;
 
     @Override
     public EventListenerProvider create(KeycloakSession keycloakSession) {
 
-        return new KeycloakHttpWebhookProvider(serverUrl, username, password);
+        return new KeycloakHttpWebhookProvider(serverUrl, username, password, apiKey);
     }
 
     @Override
@@ -24,6 +25,7 @@ public class KeycloakHttpWebhookProviderFactory implements EventListenerProvider
         serverUrl = config_scope.get("serverUrl");
         username = config_scope.get("username");
         password = config_scope.get("password");
+        apiKey = config_scope.get("apiKey");
     }
 
     @Override

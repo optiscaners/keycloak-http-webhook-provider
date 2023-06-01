@@ -28,11 +28,13 @@ public class KeycloakHttpWebhookProvider implements EventListenerProvider {
     private String serverUrl;
     private String username;
     private String password;
+    private String apiKey;
 
-    public KeycloakHttpWebhookProvider(String serverUrl, String username, String password) {
+    public KeycloakHttpWebhookProvider(String serverUrl, String username, String password, String apiKey) {
         this.serverUrl = serverUrl;
         this.username = username;
         this.password = password;
+        this.apiKey = apiKey;
     }
 
     private void sendJson(String jsonString) {
@@ -41,6 +43,10 @@ public class KeycloakHttpWebhookProvider implements EventListenerProvider {
         if (this.username != null && this.password != null) {
             String credential = Credentials.basic(this.username, this.password);
             request_builder.addHeader("Authorization", credential);
+        }
+
+        if (this.apiKey != null) {
+            request_builder.addHeader("X-API-KEY", this.apiKey);
         }
 
         Request request = request_builder.post(RequestBody.create(jsonString, JSON)).build();
